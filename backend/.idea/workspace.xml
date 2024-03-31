@@ -8,17 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e176def2-32b4-44c5-8dd4-4fc791e26472" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/handlers/transactions.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/jwt.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/2024-03-30-143314_create_budgy_user/up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-03-30-143314_create_budgy_user/up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/2024-03-30-143547_create_transaction_type/up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-03-30-143547_create_transaction_type/up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/2024-03-30-143549_create_transaction/down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-03-30-143549_create_transaction/down.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/2024-03-30-143549_create_transaction/up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-03-30-143549_create_transaction/up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/transactions.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/transactions.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/handlers/users.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/users.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/schema.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,12 +36,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "NikGabric"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NikGabric&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -58,10 +56,10 @@
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2ePdu3dXcQwKjEVw5Mh10CfniKT" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />

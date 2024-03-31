@@ -7,9 +7,10 @@ edition = "2021"
 
 [dependencies]
 diesel = { version = "*", features = ["postgres", "chrono"] }
-dotenvy = { version = "*"}
+dotenvy = { version = "*" }
 chrono = { version = "0.4.37", features = ["serde"] }
 axum = { version = "0.7.5", features = ["macros"] }
 tokio = { version = "1.37.0", features = ["full"] }
 deadpool-diesel = { version = "0.5.0", features = ["postgres"] }
 serde = { version = "1.0.197", features = ["derive"] }
+jsonwebtoken = "9.3.0"
