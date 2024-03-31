@@ -2,7 +2,7 @@ use chrono::NaiveDateTime;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
-use crate::schema::{budgy_user, transaction};
+use crate::schema::{budgy_user, transaction, transaction_type};
 
 #[derive(Queryable, Selectable, Debug, Serialize, Clone)]
 #[diesel(table_name = crate::schema::budgy_user)]
@@ -58,7 +58,7 @@ pub struct CreateTransactionDto {
     pub transaction_type_id: i32,
 }
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Debug, Serialize)]
 #[diesel(table_name = crate::schema::transaction_type)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct TransactionType {
@@ -69,4 +69,18 @@ pub struct TransactionType {
     pub inserted_at: NaiveDateTime,
     pub updated_at: NaiveDateTime,
     pub budgy_user_id: i32,
+}
+
+#[derive(Insertable, Deserialize)]
+#[diesel(table_name = transaction_type)]
+pub struct CreateTransactionType {
+    pub title: String,
+    pub description: Option<String>,
+    pub budgy_user_id: i32,
+}
+
+#[derive(Deserialize)]
+pub struct CreateTransactionTypeDto {
+    pub title: String,
+    pub description: Option<String>,
 }

@@ -7,14 +7,9 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e176def2-32b4-44c5-8dd4-4fc791e26472" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/middleware/auth.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/middleware/mod.rs" afterDir="false" />
+    <list default="true" id="e176def2-32b4-44c5-8dd4-4fc791e26472" name="Changes" comment="auth middleware">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/handlers/transactions.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/transactions.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/users.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/users.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/jwt.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/jwt.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.rs" afterDir="false" />
     </list>
@@ -140,6 +135,15 @@
       <updated>1711810365960</updated>
       <workItem from="1711810367631" duration="8920000" />
     </task>
+    <task id="LOCAL-00001" summary="auth middleware">
+      <option name="closed" value="true" />
+      <created>1711882087714</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1711882087714</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +159,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="auth middleware" />
+    <option name="LAST_COMMIT_MESSAGE" value="auth middleware" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
