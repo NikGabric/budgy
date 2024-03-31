@@ -17,7 +17,7 @@ diesel::table! {
         transaction_id -> Int4,
         title -> Varchar,
         description -> Nullable<Varchar>,
-        amount -> Money,
+        amount -> Int4,
         deleted -> Bool,
         inserted_at -> Timestamptz,
         updated_at -> Timestamptz,

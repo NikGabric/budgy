@@ -1,6 +1,6 @@
-use axum::{debug_handler, response::Json};
 use axum::extract::State;
 use axum::http::StatusCode;
+use axum::response::Json;
 use deadpool_diesel::Pool;
 use deadpool_diesel::postgres::Manager;
 use diesel::prelude::*;
@@ -9,7 +9,6 @@ use crate::helpers::internal_err::internal_error;
 use crate::models::{BudgyUser, CreateBudgyUser};
 use crate::schema::budgy_user;
 
-#[debug_handler]
 pub async fn get_users(
     State(state): State<Pool<Manager>>
 ) -> Result<Json<Vec<BudgyUser>>, (StatusCode, String)> {
@@ -23,7 +22,6 @@ pub async fn get_users(
     Ok(Json(res))
 }
 
-#[debug_handler]
 pub async fn create_user(
     State(state): State<Pool<Manager>>,
     Json(new_user): Json<CreateBudgyUser>,
