@@ -13,6 +13,7 @@ mod router;
 mod handlers;
 mod helpers;
 mod config;
+mod middleware;
 
 #[derive(Clone)]
 pub struct AppState {

@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::schema::{budgy_user, transaction};
 
-#[derive(Queryable, Selectable, Debug, Serialize)]
+#[derive(Queryable, Selectable, Debug, Serialize, Clone)]
 #[diesel(table_name = crate::schema::budgy_user)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct BudgyUser {
@@ -47,6 +47,14 @@ pub struct CreateTransaction {
     pub description: Option<String>,
     pub amount: i32,
     pub budgy_user_id: i32,
+    pub transaction_type_id: i32,
+}
+
+#[derive(Deserialize)]
+pub struct CreateTransactionDto {
+    pub title: String,
+    pub description: Option<String>,
+    pub amount: i32,
     pub transaction_type_id: i32,
 }
 

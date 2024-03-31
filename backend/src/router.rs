@@ -1,11 +1,13 @@
 use std::sync::Arc;
 
+use axum::middleware::from_fn_with_state;
 use axum::Router;
 use axum::routing::{get, post};
 
 use crate::AppState;
 use crate::handlers::transactions::create_transaction;
 use crate::handlers::users::{create_user, get_users, login_user};
+use crate::middleware::auth::auth;
 
 pub fn app_router(state: Arc<AppState>) -> Router {
     Router::new()
@@ -23,5 +25,6 @@ fn users_router(state: Arc<AppState>) -> Router {
 fn transactions_router(state: Arc<AppState>) -> Router {
     Router::new()
         .route("/", post(create_transaction))
+        .layer(from_fn_with_state(state.clone(), auth))
         .with_state(state)
 }

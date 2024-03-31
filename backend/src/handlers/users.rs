@@ -10,13 +10,13 @@ use serde::Deserialize;
 
 use crate::AppState;
 use crate::helpers::internal_err::internal_error;
-use crate::helpers::jwt::TokenClaims;
+use crate::helpers::jwt::{TokenClaims, UserClaims};
 use crate::models::{BudgyUser, CreateBudgyUser};
 use crate::schema::budgy_user;
 use crate::schema::budgy_user::username;
 
 pub async fn get_users(
-    State(state): State<Arc<AppState>>
+    State(state): State<Arc<AppState>>,
 ) -> Result<Json<Vec<BudgyUser>>, (StatusCode, String)> {
     let conn = state.pool.get().await.map_err(internal_error)?;
     let res = conn
@@ -63,6 +63,10 @@ pub async fn login_user(
         sub: db_user.budgy_user_id.to_string(),
         exp,
         iat,
+        usr: UserClaims {
+            username: db_user.username,
+            email: db_user.email,
+        },
     };
 
     let token = encode(
