@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { post } from '$lib/api/api';
-	import ButtonPrimary from '$lib/components/ButtonPrimary.svelte';
-	import { authToken } from '$lib/shared/stores/auth';
+	import Button from '$lib/components/Button.svelte';
+	import { authTokenString } from '$lib/shared/stores/auth';
 
 	let username: String = '';
 	let password: String = '';
 
 	const loginUser = async () => {
     const token = await post("/users/login", { username, password });
-    authToken.set(token);
+		authTokenString.set(token);
 	};
 </script>
 
@@ -24,7 +25,12 @@
 			Password:
 			<input class="w-full border-2 rounded-md p-2" type="password" bind:value={password} />
 		</label>
-		<ButtonPrimary />
+		<Button type="submit">
+			Login
+		</Button>
+		<Button onClick={() => goto("/auth/register")} type="button" variant="secondary">
+			Register
+		</Button>
 	</form>
 
 </div>
