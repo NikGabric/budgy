@@ -1,14 +1,15 @@
 use std::sync::Arc;
 
-use axum::{Extension, Json};
+use axum::{debug_handler, Extension, Json};
 use axum::extract::State;
 use axum::http::StatusCode;
-use diesel::{RunQueryDsl, SelectableHelper};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl, SelectableHelper};
 
 use crate::AppState;
 use crate::helpers::internal_err::internal_error;
 use crate::models::{BudgyUser, CreateTransaction, CreateTransactionDto, CreateTransactionType, CreateTransactionTypeDto, Transaction, TransactionType};
 use crate::schema::{transaction, transaction_type};
+use crate::schema::transaction::budgy_user_id;
 
 pub async fn create_transaction(
     Extension(user): Extension<BudgyUser>,
@@ -30,6 +31,27 @@ pub async fn create_transaction(
                 .values(new_transaction)
                 .returning(Transaction::as_returning())
                 .get_result(conn)
+        })
+        .await
+        .map_err(internal_error)?
+        .map_err(internal_error)?;
+
+    Ok(Json(res))
+}
+
+#[debug_handler]
+pub async fn get_transactions(
+    Extension(user): Extension<BudgyUser>,
+    State(state): State<Arc<AppState>>,
+) -> Result<Json<Vec<Transaction>>, (StatusCode, String)> {
+    let conn = state.pool.get().await.map_err(internal_error)?;
+    let user_id = user.budgy_user_id;
+    let res = conn
+        .interact(move |conn| {
+            transaction::table
+                .filter(budgy_user_id.eq(user_id))
+                .select(Transaction::as_select())
+                .load(conn)
         })
         .await
         .map_err(internal_error)?
