@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { LogOut, Settings, User } from "lucide-vue-next";
+
+const userStore = useUserStore();
+const { getUser } = storeToRefs(userStore);
+const { logout } = userStore;
 </script>
 
 <template>
@@ -10,7 +14,7 @@ import { LogOut, Settings, User } from "lucide-vue-next";
       role="button"
     >
       <div class="bg-neutral text-neutral-content w-12 rounded-full">
-        <span>SY</span>
+        <span>{{ getUser?.username }}</span>
       </div>
     </button>
     <ul
@@ -25,7 +29,9 @@ import { LogOut, Settings, User } from "lucide-vue-next";
       </li>
       <div class="divider my-0" />
       <li>
-        <button class="rounded-lg text-error"><LogOut /> Logout</button>
+        <button class="rounded-lg text-error" @click="logout">
+          <LogOut /> Logout
+        </button>
       </li>
     </ul>
   </div>

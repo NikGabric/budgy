@@ -42,6 +42,10 @@ const breadcrumbItems: ComputedRef<BreadcrumbItem[]> = computed(() => {
 
   return breadcrumbs;
 });
+
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore);
+const { login } = userStore;
 </script>
 
 <template>
@@ -58,7 +62,8 @@ const breadcrumbItems: ComputedRef<BreadcrumbItem[]> = computed(() => {
     </div>
 
     <div>
-      <NavbarAvatarDropdown />
+      <NavbarAvatarDropdown v-if="isLoggedIn" />
+      <button v-else class="btn btn-secondary" @click="login">Login</button>
     </div>
   </div>
 </template>
