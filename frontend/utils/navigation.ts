@@ -1,26 +1,34 @@
-import { Gauge, HandCoins, Wallet } from "lucide-vue-next";
+import { Gauge, HandCoins, LogOut, Settings, Wallet } from "lucide-vue-next";
 
 export interface NavigationItem {
   label: string;
   to: string;
-  icon?: Component;
+  iconName: string;
   styles?: string;
 }
 
-export const navigationItems: NavigationItem[] = [
+export const defaultNavigationItems: NavigationItem[] = [
   {
     label: "Dashboard",
     to: "/dashboard",
-    icon: Gauge,
+    iconName: "Gauge",
   },
   {
     label: "Transactions",
     to: "/",
-    icon: HandCoins,
+    iconName: "HandCoins",
   },
   {
     label: "Wallet",
     to: "/",
-    icon: Wallet,
+    iconName: "Wallet",
   },
 ];
+
+export const iconMap: Record<string, Component> = {
+  Gauge,
+  HandCoins,
+  Wallet,
+  Settings,
+  LogOut,
+};
