@@ -9,6 +9,7 @@ import {
 } from "lucide-vue-next";
 import Breadcrumbs from "../common/breadcrumbs.vue";
 import type { BreadcrumbItem } from "../common/breadcrumbs";
+import ThemeSelector from "../common/theme-selector.vue";
 
 defineProps({
   sidebarOpen: {
@@ -57,7 +58,8 @@ const breadcrumbItems: ComputedRef<BreadcrumbItem[]> = computed(() => {
       <Breadcrumbs :items="breadcrumbItems" />
     </div>
 
-    <div>
+    <div class="flex items-center gap-4">
+      <ThemeSelector />
       <NavbarAvatarDropdown />
     </div>
   </div>

@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  AlignCenter,
-  Gauge,
-  HandCoins,
-  LogOut,
-  Settings,
-  Wallet,
-} from "lucide-vue-next";
+import { LogOut, Settings } from "lucide-vue-next";
 import type { SidebarItem } from ".";
 
 defineProps({
@@ -32,7 +25,7 @@ const defaultItems: SidebarItem[] = [
 </script>
 
 <template>
-  <div class="bg-primary rounded-r-xl p-x-2">
+  <div class="bg-primary p-x-2 text-base-100">
     <transition
       name="fade"
       mode="out-in"
