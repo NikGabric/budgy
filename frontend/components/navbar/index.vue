@@ -9,6 +9,7 @@ import {
 } from "lucide-vue-next";
 import Breadcrumbs from "../common/breadcrumbs.vue";
 import type { BreadcrumbItem } from "../common/breadcrumbs";
+import ThemeSelector from "../common/theme-selector.vue";
 
 defineProps({
   sidebarOpen: {
@@ -61,9 +62,9 @@ const { login } = userStore;
       <Breadcrumbs :items="breadcrumbItems" />
     </div>
 
-    <div>
-      <NavbarAvatarDropdown v-if="isLoggedIn" />
-      <button v-else class="btn btn-secondary" @click="login">Login</button>
+    <div class="flex items-center gap-4">
+      <ThemeSelector />
+      <NavbarAvatarDropdown />
     </div>
   </div>
 </template>

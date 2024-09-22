@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="business">
+  <div id="theme-wrapper" data-theme="budgy">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

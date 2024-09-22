@@ -27,7 +27,7 @@ const defaultItems: NavigationItem[] = [
 </script>
 
 <template>
-  <div class="bg-primary rounded-r-xl p-x-2">
+  <div class="bg-primary p-x-2 text-base-100">
     <transition
       name="fade"
       mode="out-in"
