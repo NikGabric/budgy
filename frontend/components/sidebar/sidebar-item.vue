@@ -16,10 +16,10 @@ defineProps({
 <template>
   <div
     class="w-full"
-    :class="{ 'tooltip tooltip-right tooltip-secondary': !sidebarOpen }"
+    :class="{ 'tooltip tooltip-right tooltip-accent': !sidebarOpen }"
     :data-tip="item.label"
   >
-    <div v-if="!item.to" class="text-sm text-neutral-300">
+    <div v-if="!item.to" class="text-sm">
       {{ item.label }}
     </div>
 
