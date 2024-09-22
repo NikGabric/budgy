@@ -43,6 +43,10 @@ const breadcrumbItems: ComputedRef<BreadcrumbItem[]> = computed(() => {
 
   return breadcrumbs;
 });
+
+const userStore = useUserStore();
+const { isLoggedIn } = storeToRefs(userStore);
+const { login } = userStore;
 </script>
 
 <template>

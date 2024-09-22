@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { LogOut, Settings } from "lucide-vue-next";
-import type { SidebarItem } from ".";
+import { useUserStore } from "../../stores/user";
 
 defineProps({
   sidebarOpen: {
@@ -9,16 +9,18 @@ defineProps({
   },
 });
 
-const defaultItems: SidebarItem[] = [
+const { getNavigationItems } = useUserStore();
+
+const defaultItems: NavigationItem[] = [
   {
     label: "Settings",
     to: "/",
-    icon: Settings,
+    iconName: "Settings",
   },
   {
     label: "Logout",
     to: "/",
-    icon: LogOut,
+    iconName: "LogOut",
     styles: "text-error",
   },
 ];
@@ -46,7 +48,7 @@ const defaultItems: SidebarItem[] = [
     <div class="w-full h-full flex flex-col justify-between">
       <div>
         <sidebar-item
-          v-for="item in navigationItems"
+          v-for="item in getNavigationItems"
           :item="item"
           :sidebar-open="sidebarOpen"
         />

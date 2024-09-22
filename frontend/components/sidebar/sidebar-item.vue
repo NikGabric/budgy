@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { type SidebarItem } from ".";
-
 defineProps({
   item: {
-    type: Object as () => SidebarItem,
+    type: Object as () => NavigationItem,
     required: true,
   },
   sidebarOpen: {
@@ -29,7 +27,7 @@ defineProps({
       v-else
     >
       <div class="flex items-center space-x-2" :class="item.styles">
-        <component class="" :is="item.icon" />
+        <component :is="iconMap[item.iconName]" />
         <span v-if="sidebarOpen" class="whitespace-nowrap">{{
           item.label
         }}</span>
