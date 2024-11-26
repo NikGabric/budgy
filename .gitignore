@@ -1,0 +1,30 @@
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*.local
+
+# Backend
+backend/bin/
+backend/*.exe
+backend/*.out
+backend/*.log
+backend/vendor/
+
+# Docker
+docker-compose.override.yml
+docker-compose.override.yaml
+.docker/
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+
+# General
+*.env
+.env.*
