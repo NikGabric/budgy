@@ -2,8 +2,9 @@ package main
 
 import (
 	"backend/internal/config"
-	"fmt"
 	"log"
+	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -12,5 +13,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg)
+	router := config.Router()
+
+	server := &http.Server{
+		Addr:    ":" + strconv.Itoa(cfg.ServerPort),
+		Handler: router,
+	}
+	server.ListenAndServe()
 }
