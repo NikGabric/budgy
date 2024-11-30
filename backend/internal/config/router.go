@@ -10,6 +10,7 @@ func CreateRouter(queries *repository.Queries) *http.ServeMux {
 	usersHandler := handlers.NewUsersHandler(queries)
 	router := http.NewServeMux()
 
+	router.HandleFunc("POST /auth/login", usersHandler.LoginUser)
 	router.HandleFunc("GET /", handlers.GetStatus)
 	router.HandleFunc("GET /user/{id}", usersHandler.GetUser)
 	router.HandleFunc("POST /user", usersHandler.CreateUser)

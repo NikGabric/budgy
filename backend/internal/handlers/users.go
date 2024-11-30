@@ -5,6 +5,7 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -68,4 +69,34 @@ func (h *UsersHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(userJson)
+}
+
+type LoginUserDto struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+func (h *UsersHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
+	var userDto LoginUserDto
+	err := json.NewDecoder(r.Body).Decode(&userDto)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	user, err := h.queries.GetUserByUsername(context.Background(), userDto.Username)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	matchPass := helpers.CheckPasswordHash(user.Password, userDto.Password)
+	if !matchPass {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	// TODO: token
+	w.WriteHeader(http.StatusOK)
 }
