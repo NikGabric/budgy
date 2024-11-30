@@ -10,7 +10,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Server healthy!"))
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Server healthy!"))
 	return
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"backend/internal/config"
-	"backend/internal/handlers"
+	"backend/internal/middleware"
 	"backend/internal/repository"
 	"context"
 	"net/http"
@@ -12,27 +12,23 @@ import (
 
 func main() {
 	ctx := context.Background()
-	config := config.GetConfig()
+	cfg := config.GetConfig()
 
-	conn, err := pgx.Connect(ctx, config.DbConnString)
+	conn, err := pgx.Connect(ctx, cfg.DbConnString)
 	if err != nil {
 		panic("! Unable to connect to DB !")
 	}
 	defer conn.Close(ctx)
 
 	queries := repository.New(conn)
-
-	router := http.NewServeMux()
-
-	usersHandler := handlers.NewUsersHandler(queries)
-
-	router.HandleFunc("/", handlers.GetStatus)
-	router.HandleFunc("/user/{id}", usersHandler.GetUser)
-	router.HandleFunc("/user", usersHandler.CreateUser)
+	router := config.CreateRouter(queries)
+	mwStack := middleware.CreateStack(
+		middleware.Logging,
+	)
 
 	server := http.Server{
-		Addr:    ":" + config.ServerPort,
-		Handler: router,
+		Addr:    ":" + cfg.ServerPort,
+		Handler: mwStack(router),
 	}
 
 	err = server.ListenAndServe()

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "budgy",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
