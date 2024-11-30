@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"backend/internal/helpers"
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
@@ -44,6 +45,12 @@ func (h *UsersHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&userDto)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	userDto.Password, err = helpers.HashPassword(userDto.Password)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
