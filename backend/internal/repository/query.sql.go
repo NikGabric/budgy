@@ -60,20 +60,26 @@ func (q *Queries) GetUser(ctx context.Context, id int32) (User, error) {
 }
 
 const getUserByUsername = `-- name: GetUserByUsername :one
-SELECT id, username, password FROM users
+SELECT id, username, email, password FROM users
 WHERE username = $1 LIMIT 1
 `
 
 type GetUserByUsernameRow struct {
 	ID       int32
 	Username string
+	Email    string
 	Password string
 }
 
 func (q *Queries) GetUserByUsername(ctx context.Context, username string) (GetUserByUsernameRow, error) {
 	row := q.db.QueryRow(ctx, getUserByUsername, username)
 	var i GetUserByUsernameRow
-	err := row.Scan(&i.ID, &i.Username, &i.Password)
+	err := row.Scan(
+		&i.ID,
+		&i.Username,
+		&i.Email,
+		&i.Password,
+	)
 	return i, err
 }
 

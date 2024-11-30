@@ -23,5 +23,5 @@ email = $2
 WHERE id = $3;
 
 -- name: GetUserByUsername :one
-SELECT id, username, password FROM users
+SELECT id, username, email, password FROM users
 WHERE username = $1 LIMIT 1;

@@ -97,6 +97,12 @@ func (h *UsersHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: token
+	token, err := helpers.CreateJwt(user)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(token))
 }

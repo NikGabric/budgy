@@ -7,6 +7,7 @@ import (
 )
 
 type Config struct {
+	ServerHost   string
 	ServerPort   string
 	DbConnString string
 }
@@ -18,6 +19,7 @@ func GetConfig() Config {
 	}
 
 	conf := Config{
+		ServerHost:   os.Getenv("SERVER_HOST"),
 		ServerPort:   os.Getenv("SERVER_PORT"),
 		DbConnString: os.Getenv("DB_CONN_STRING"),
 	}
