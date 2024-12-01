@@ -15,7 +15,7 @@ func CreateRouter(queries *repository.Queries) *http.ServeMux {
 	// user
 	router.HandleFunc("POST /user/register", userHandler.CreateUser)
 	router.HandleFunc("POST /user/login", userHandler.LoginUser)
-	router.HandleFunc("GET /user/{id}", userHandler.GetUser)
+	router.HandleFunc("GET /user/{id}", userHandler.GetUserById)
 	router.HandleFunc("POST /user", userHandler.CreateUser)
 
 	return router

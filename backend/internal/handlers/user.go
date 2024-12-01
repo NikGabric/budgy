@@ -19,7 +19,7 @@ func NewUserHandler(queries *repository.Queries) *UserHandler {
 	return &UserHandler{queries: queries}
 }
 
-func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
