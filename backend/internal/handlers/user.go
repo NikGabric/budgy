@@ -5,20 +5,21 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-type UsersHandler struct {
+type UserHandler struct {
 	queries *repository.Queries
 }
 
-func NewUsersHandler(queries *repository.Queries) *UsersHandler {
-	return &UsersHandler{queries: queries}
+func NewUserHandler(queries *repository.Queries) *UserHandler {
+	return &UserHandler{queries: queries}
 }
 
-func (h *UsersHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -41,7 +42,7 @@ func (h *UsersHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	w.Write(userJson)
 }
 
-func (h *UsersHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var userDto repository.CreateUserParams
 	err := json.NewDecoder(r.Body).Decode(&userDto)
 	if err != nil {
@@ -76,7 +77,8 @@ type LoginUserDto struct {
 	Password string `json:"password"`
 }
 
-func (h *UsersHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method)
 	var userDto LoginUserDto
 	err := json.NewDecoder(r.Body).Decode(&userDto)
 	if err != nil {
