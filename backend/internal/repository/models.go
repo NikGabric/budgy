@@ -8,6 +8,26 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Transaction struct {
+	ID                int32              `json:"id"`
+	UserID            int32              `json:"user_id"`
+	TransactionTypeID int32              `json:"transaction_type_id"`
+	Amount            pgtype.Numeric     `json:"amount"`
+	Description       pgtype.Text        `json:"description"`
+	TransactionDate   pgtype.Timestamptz `json:"transaction_date"`
+	CreatedAt         pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt         pgtype.Timestamptz `json:"updated_at"`
+}
+
+type TransactionType struct {
+	ID          int32              `json:"id"`
+	UserID      int32              `json:"user_id"`
+	Name        string             `json:"name"`
+	Description pgtype.Text        `json:"description"`
+	CreatedAt   pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt   pgtype.Timestamptz `json:"updated_at"`
+}
+
 type User struct {
 	ID        int32              `json:"id"`
 	Username  string             `json:"username"`
