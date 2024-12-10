@@ -4,7 +4,6 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -76,14 +75,12 @@ func (h *TransactionsHandler) CreateTransaction(w http.ResponseWriter, r *http.R
 
 	t, err := h.q.CreateTransaction(context.Background(), tDto)
 	if err != nil {
-		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	ttJson, err := json.Marshal(t)
 	if err != nil {
-		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
