@@ -47,7 +47,6 @@ func (h *TransactionsHandler) CreateTransaction(w http.ResponseWriter, r *http.R
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(tDto)
 
 	t, err := h.q.CreateTransaction(context.Background(), tDto)
 	if err != nil {
