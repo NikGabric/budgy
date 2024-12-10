@@ -3,7 +3,6 @@ package middleware
 import (
 	"backend/internal/helpers"
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 )
@@ -16,7 +15,6 @@ func writeUnauthorized(w http.ResponseWriter) {
 func IsAuthenticated(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		auth := r.Header.Get("Authorization")
-		fmt.Println(auth)
 
 		if !strings.HasPrefix(auth, "Bearer") {
 			writeUnauthorized(w)
@@ -27,13 +25,12 @@ func IsAuthenticated(next http.HandlerFunc) http.HandlerFunc {
 
 		claims, err := helpers.DecodeJwt(encodedToken)
 		if err != nil {
-			fmt.Println(err)
 			writeUnauthorized(w)
 			return
 		}
 
-		sub := claims["sub"]
-		ctx := context.WithValue(r.Context(), "userId", sub)
+		sub := claims["sub"].(float64)
+		ctx := context.WithValue(r.Context(), "userId", int32(sub))
 		r = r.WithContext(ctx)
 
 		next.ServeHTTP(w, r)

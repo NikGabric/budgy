@@ -5,7 +5,6 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -78,7 +77,6 @@ type LoginUserDto struct {
 }
 
 func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
 	var userDto LoginUserDto
 	err := json.NewDecoder(r.Body).Decode(&userDto)
 	if err != nil {

@@ -26,7 +26,7 @@ func CreateJwt(user repository.GetUserByUsernameRow) (string, error) {
 	claims := jwt.MapClaims{
 		"username": user.Username,
 		"email":    user.Email,
-		"sub":      user.ID,
+		"sub":      int32(user.ID),
 		"iss":      fmt.Sprintf("http://%s/", os.Getenv("SERVER_HOST")),
 		"exp":      time.Now().Add(time.Hour /* TODO: add config */).Unix(),
 		"iat":      time.Now().Unix(),

@@ -2,6 +2,7 @@ package config
 
 import (
 	"backend/internal/handlers"
+	"backend/internal/middleware"
 	"backend/internal/repository"
 	"net/http"
 )
@@ -27,6 +28,9 @@ func CreateRouter(queries *repository.Queries) *http.ServeMux {
 	// transactions
 	router.HandleFunc("GET /transaction/{id}", tHandler.GetTransactionById)
 	router.HandleFunc("POST /transaction", tHandler.CreateTransaction)
+
+	// user transactions
+	router.HandleFunc("GET /user/transactions", middleware.IsAuthenticated(tHandler.GetTransactionsForUser))
 
 	return router
 }
