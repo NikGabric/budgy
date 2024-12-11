@@ -28,6 +28,8 @@ func CreateRouter(queries *repository.Queries) *http.ServeMux {
 	// transactions
 	router.HandleFunc("GET /transaction/{id}", middleware.IsAuthenticated(tHandler.GetTransactionById))
 	router.HandleFunc("POST /transaction", middleware.IsAuthenticated(tHandler.CreateTransaction))
+	router.HandleFunc("PUT /transaction", middleware.IsAuthenticated(tHandler.UpdateTransaction))
+	router.HandleFunc("DELETE /transaction/{id}", middleware.IsAuthenticated(tHandler.DeleteTransaction))
 
 	// user transactions
 	router.HandleFunc("GET /user/transactions", middleware.IsAuthenticated(tHandler.GetTransactionsForUser))

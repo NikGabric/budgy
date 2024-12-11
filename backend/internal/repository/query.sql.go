@@ -380,33 +380,43 @@ func (q *Queries) ListUsers(ctx context.Context) ([]User, error) {
 
 const updateTransaction = `-- name: UpdateTransaction :one
 UPDATE transactions
-SET 
-    transaction_type_id = $2, 
-    amount = $3, 
-    description = $4, 
-    transaction_date = $5
-WHERE id = $1 AND user_id = $6
+SET
+    transaction_type_id = COALESCE($3, transaction_type_id),
+    amount = COALESCE($4, amount),
+    description = COALESCE($5, description),
+    transaction_date = COALESCE($6, transaction_date)
+WHERE id = $1 AND user_id = $2
 RETURNING id, user_id, transaction_type_id, amount, description, transaction_date, created_at, updated_at
 `
 
 type UpdateTransactionParams struct {
 	ID                int32              `json:"id"`
-	TransactionTypeID int32              `json:"transaction_type_id"`
+	UserID            int32              `json:"user_id"`
+	TransactionTypeID pgtype.Int4        `json:"transaction_type_id"`
 	Amount            pgtype.Numeric     `json:"amount"`
 	Description       pgtype.Text        `json:"description"`
 	TransactionDate   pgtype.Timestamptz `json:"transaction_date"`
-	UserID            int32              `json:"user_id"`
 }
 
 // Update a transaction
+// UPDATE transactions
+// SET
+//
+//	transaction_type_id = $2,
+//	amount = $3,
+//	description = $4,
+//	transaction_date = $5
+//
+// WHERE id = $1 AND user_id = $6
+// RETURNING *;
 func (q *Queries) UpdateTransaction(ctx context.Context, arg UpdateTransactionParams) (Transaction, error) {
 	row := q.db.QueryRow(ctx, updateTransaction,
 		arg.ID,
+		arg.UserID,
 		arg.TransactionTypeID,
 		arg.Amount,
 		arg.Description,
 		arg.TransactionDate,
-		arg.UserID,
 	)
 	var i Transaction
 	err := row.Scan(

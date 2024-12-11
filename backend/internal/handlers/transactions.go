@@ -80,12 +80,57 @@ func (h *TransactionsHandler) CreateTransaction(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	ttJson, err := json.Marshal(t)
+	tJson, err := json.Marshal(t)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	w.Write(ttJson)
+	w.Write(tJson)
+}
+
+func (h *TransactionsHandler) UpdateTransaction(w http.ResponseWriter, r *http.Request) {
+	var tDto repository.UpdateTransactionParams
+	err := json.NewDecoder(r.Body).Decode(&tDto)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	tDto.UserID = r.Context().Value("userId").(int32)
+
+	t, err := h.q.UpdateTransaction(context.Background(), tDto)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	tJson, err := json.Marshal(t)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(tJson)
+}
+
+func (h *TransactionsHandler) DeleteTransaction(w http.ResponseWriter, r *http.Request) {
+	var tDto repository.DeleteTransactionParams
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	tDto.ID = int32(id)
+	tDto.UserID = r.Context().Value("userId").(int32)
+
+	err = h.q.DeleteTransaction(context.Background(), tDto)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Success"))
 }

@@ -93,13 +93,21 @@ LIMIT $2 OFFSET $3;
 
 -- Update a transaction
 -- name: UpdateTransaction :one
+-- UPDATE transactions
+-- SET 
+--     transaction_type_id = $2, 
+--     amount = $3, 
+--     description = $4, 
+--     transaction_date = $5
+-- WHERE id = $1 AND user_id = $6
+-- RETURNING *;
 UPDATE transactions
-SET 
-    transaction_type_id = $2, 
-    amount = $3, 
-    description = $4, 
-    transaction_date = $5
-WHERE id = $1 AND user_id = $6
+SET
+    transaction_type_id = COALESCE(sqlc.narg('transaction_type_id'), transaction_type_id),
+    amount = COALESCE(sqlc.narg('amount'), amount),
+    description = COALESCE(sqlc.narg('description'), description),
+    transaction_date = COALESCE(sqlc.narg('transaction_date'), transaction_date)
+WHERE id = $1 AND user_id = $2
 RETURNING *;
 
 -- Delete a transaction
