@@ -72,6 +72,7 @@ func (h *TransactionsHandler) CreateTransaction(w http.ResponseWriter, r *http.R
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	tDto.UserID = r.Context().Value("userId").(int32)
 
 	t, err := h.q.CreateTransaction(context.Background(), tDto)
 	if err != nil {

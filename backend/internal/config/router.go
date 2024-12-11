@@ -22,12 +22,12 @@ func CreateRouter(queries *repository.Queries) *http.ServeMux {
 	router.HandleFunc("POST /user", userHandler.CreateUser)
 
 	// transaction types
-	router.HandleFunc("GET /transaction-type/{id}", ttHandler.GetTransactionTypeById)
-	router.HandleFunc("POST /transaction-type", ttHandler.CreateTransactionType)
+	router.HandleFunc("GET /transaction-type/{id}", middleware.IsAuthenticated(ttHandler.GetTransactionTypeById))
+	router.HandleFunc("POST /transaction-type", middleware.IsAuthenticated(ttHandler.CreateTransactionType))
 
 	// transactions
-	router.HandleFunc("GET /transaction/{id}", tHandler.GetTransactionById)
-	router.HandleFunc("POST /transaction", tHandler.CreateTransaction)
+	router.HandleFunc("GET /transaction/{id}", middleware.IsAuthenticated(tHandler.GetTransactionById))
+	router.HandleFunc("POST /transaction", middleware.IsAuthenticated(tHandler.CreateTransaction))
 
 	// user transactions
 	router.HandleFunc("GET /user/transactions", middleware.IsAuthenticated(tHandler.GetTransactionsForUser))
