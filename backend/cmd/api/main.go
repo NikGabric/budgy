@@ -5,6 +5,7 @@ import (
 	"backend/internal/middleware"
 	"backend/internal/repository"
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/jackc/pgx/v5"
@@ -23,6 +24,7 @@ func main() {
 	queries := repository.New(conn)
 	router := config.CreateRouter(queries)
 	mwStack := middleware.CreateStack(
+		middleware.AllowCors,
 		middleware.Logging,
 	)
 
@@ -33,6 +35,7 @@ func main() {
 
 	err = server.ListenAndServe()
 	if err != nil {
+		fmt.Println(err)
 		panic("! Unable to start server !")
 	}
 }
