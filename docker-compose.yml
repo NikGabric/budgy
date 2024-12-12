@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: budgy_postgres
+    container_name: postgres
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -11,6 +11,22 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - budgy_postgres_data:/var/lib/postgresql/data
+    networks:
+      - budgy
+
+  backend:
+    build: ./backend/
+    container_name: backend
+    depends_on:
+      - postgres
+    env_file: "backend/.env"
+    ports:
+      - "3030:3030"
+    networks:
+      - budgy
+
+networks:
+  budgy:
 
 volumes:
   budgy_postgres_data:
