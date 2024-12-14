@@ -1,2 +1,2 @@
 # budgy
-A budget
+A budgeting app for the hobbyist.
