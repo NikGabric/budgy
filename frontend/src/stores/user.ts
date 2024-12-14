@@ -1,7 +1,7 @@
 import { loginUser } from '@/api/api';
 import type { LoginUserDto } from '@/api/types';
 import { defineStore } from 'pinia';
-import { ref, type Ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 import { parseJwt } from '../utils/jwt';
 
 type User = {
@@ -17,6 +17,8 @@ export const useUserStore = defineStore('user', () => {
   const token: Ref<string | null> = ref(
     localToken.value ? localToken.value : null,
   );
+
+  const isAuthenticated = computed(() => !!user.value);
 
   const login = async (loginUserDto: LoginUserDto) => {
     try {
@@ -35,5 +37,5 @@ export const useUserStore = defineStore('user', () => {
     localStorage.removeItem('budgy_token');
   };
 
-  return { user, token, login, logout };
+  return { user, token, isAuthenticated, login, logout };
 });
