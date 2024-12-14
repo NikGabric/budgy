@@ -1,19 +1,33 @@
 <script setup lang="ts">
-import { anonGet } from '@/api/api';
-import { type ApiResponse } from '@/api/types';
-import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { ref, type Ref } from 'vue';
 
-const data = ref<ApiResponse | null>(null);
-const getData = async () => {
-  data.value = await anonGet('/user/5');
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+const { login, logout } = userStore;
+
+const username: Ref<string> = ref('');
+const password: Ref<string> = ref('');
+
+const handleLogin = () => {
+  login({
+    username: username.value,
+    password: password.value,
+  });
 };
 </script>
 
 <template>
   <div>
-    {{ data }}
-    <button class="btn" @click="getData">
-      Get data
-    </button>
+    <div v-if="user">
+      Logged in as: {{ user.username }}
+      <button @click="logout">Logout</button>
+    </div>
+    <div v-else>
+      <input v-model="username" />
+      <input v-model="password" />
+      <button class="btn" @click="handleLogin">Login</button>
+    </div>
   </div>
 </template>

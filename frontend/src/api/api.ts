@@ -1,48 +1,21 @@
-import axios from 'axios';
-import { type ApiResponse } from './types';
+import { anonPost } from './helpers';
+import type { LoginUserDto } from './types';
 
-const API_URL = import.meta.env.VITE_APP_API_URL;
+export interface LoginUserResponse {
+  token: string;
+}
 
-export const anonGet = async (
-  url: string,
-  params?: Record<string, string | number>,
-): Promise<ApiResponse> => {
-  const reqUrl = `${API_URL}${url}`;
+export const loginUser = async (
+  loginUserDto: LoginUserDto,
+): Promise<LoginUserResponse> => {
+  const resp = await anonPost<LoginUserResponse>(
+    '/user/login',
+    loginUserDto,
+  );
 
-  const resp = await axios.get(reqUrl, { params });
-
-  return resp.data;
-};
-
-export const anonPost = async (
-  url: string,
-  body?: Record<string, string | number>,
-): Promise<ApiResponse> => {
-  const reqUrl = `${API_URL}${url}`;
-
-  const resp = await axios.post(reqUrl, body);
-
-  return resp.data;
-};
-
-export const anonPut = async (
-  url: string,
-  body?: Record<string, string | number>,
-): Promise<ApiResponse> => {
-  const reqUrl = `${API_URL}${url}`;
-
-  const resp = await axios.put(reqUrl, body);
-
-  return resp.data;
-};
-
-export const anonDelete = async (
-  url: string,
-  params?: Record<string, string | number>,
-): Promise<ApiResponse> => {
-  const reqUrl = `${API_URL}${url}`;
-
-  const resp = await axios.delete(reqUrl, { params });
+  if (!resp.isSuccess) {
+    throw new Error(resp.errorMsg);
+  }
 
   return resp.data;
 };
