@@ -76,6 +76,10 @@ type LoginUserDto struct {
 	Password string `json:"password"`
 }
 
+type LoginUserResponse struct {
+	Token string `json:"token"`
+}
+
 func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 	var userDto LoginUserDto
 	err := json.NewDecoder(r.Body).Decode(&userDto)
@@ -103,6 +107,13 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	resp := LoginUserResponse{Token: token}
+	jsonResp, err := json.Marshal(resp)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(token))
+	w.Write([]byte(jsonResp))
 }
