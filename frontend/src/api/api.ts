@@ -9,7 +9,9 @@ export const anonGet = async (
 ): Promise<ApiResponse> => {
   const reqUrl = `${API_URL}${url}`;
 
-  return axios.get(reqUrl, { params });
+  const resp = await axios.get(reqUrl, { params });
+
+  return resp.data;
 };
 
 export const anonPost = async (
@@ -18,7 +20,9 @@ export const anonPost = async (
 ): Promise<ApiResponse> => {
   const reqUrl = `${API_URL}${url}`;
 
-  return axios.post(reqUrl, body);
+  const resp = await axios.post(reqUrl, body);
+
+  return resp.data;
 };
 
 export const anonPut = async (
@@ -27,7 +31,9 @@ export const anonPut = async (
 ): Promise<ApiResponse> => {
   const reqUrl = `${API_URL}${url}`;
 
-  return axios.put(reqUrl, body);
+  const resp = await axios.put(reqUrl, body);
+
+  return resp.data;
 };
 
 export const anonDelete = async (
@@ -36,5 +42,7 @@ export const anonDelete = async (
 ): Promise<ApiResponse> => {
   const reqUrl = `${API_URL}${url}`;
 
-  return axios.delete(reqUrl, { params });
+  const resp = await axios.delete(reqUrl, { params });
+
+  return resp.data;
 };
