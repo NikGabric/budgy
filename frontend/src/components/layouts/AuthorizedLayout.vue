@@ -27,7 +27,11 @@ const toggleSidebarOpen = () => (sidebarOpen.value = !sidebarOpen.value);
         />
       </header>
 
-      <RouterView />
+      <div class="w-full p-8 flex justify-center">
+        <div class="w-full max-w-[1560px]">
+          <RouterView />
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -8,10 +8,7 @@ export interface LoginUserResponse {
 export const loginUser = async (
   loginUserDto: LoginUserDto,
 ): Promise<LoginUserResponse> => {
-  const resp = await anonPost<LoginUserResponse>(
-    '/user/login',
-    loginUserDto,
-  );
+  const resp = await anonPost<LoginUserResponse>('/user/login', loginUserDto);
 
   if (!resp.isSuccess) {
     throw new Error(resp.errorMsg);
