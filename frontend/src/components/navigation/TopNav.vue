@@ -19,7 +19,6 @@ const { isAuthenticated } = userStore;
       </button>
       <NavBreadcrumbs />
     </div>
-    <img v-else src="/test-logo.png" />
 
     <div v-if="isAuthenticated">
       <NavUserDropdown />
