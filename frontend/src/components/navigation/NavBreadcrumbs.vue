@@ -11,7 +11,7 @@ const items = computed(() => route.fullPath.split('/').filter(Boolean));
 <template>
   <div class="flex items-center">
     <div v-for="(item, i) in items" :key="item">
-      <RouterLink to="/dashboard" class="underline capitalize">
+      <RouterLink to="/dashboard" class="capitalize hover:underline">
         {{ item }}
       </RouterLink>
       <ChevronRight v-if="i < items.length - 1" />

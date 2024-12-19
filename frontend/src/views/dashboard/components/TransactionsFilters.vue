@@ -31,7 +31,7 @@ const handleChangeTransactionType = (e: Event) => {
 <template>
   <div>
     <select
-      class="p-3 outline outline-1 bg-neutral-200 hover:bg-neutral-300 hover:shadow-sm transition-colors rounded-md"
+      class="select select-primary w-64"
       @change="handleChangeTransactionType"
     >
       <option value="all" :selected="transactionType === null">All</option>

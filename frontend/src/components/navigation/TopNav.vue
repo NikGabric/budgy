@@ -19,7 +19,7 @@ const { isAuthenticated } = userStore;
 
 <template>
   <nav
-    class="flex items-center justify-between h-16 px-4 w-full border-b bg-primary-200 border-b-neutral-700"
+    class="flex items-center justify-between h-16 px-4 w-full border-b bg-primary-200 border-b-primary"
   >
     <div class="flex items-center gap-2" v-if="isAuthenticated">
       <button
@@ -29,6 +29,7 @@ const { isAuthenticated } = userStore;
         <AlignJustify v-if="!sidebarOpen" />
         <X v-else />
       </button>
+
       <NavBreadcrumbs />
     </div>
 

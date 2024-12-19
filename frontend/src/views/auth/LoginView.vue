@@ -23,21 +23,23 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="mt-16 w-96 flex flex-col gap-4 text-center">
+  <div class="mt-16 w-96 flex flex-col gap-8 text-center">
     <h1 class="text-3xl">Welcome to Budgy!</h1>
 
     <form @submit.prevent="handleLogin" class="flex flex-col gap-4 text-center">
       <input
         type="text"
+        placeholder="Username"
+        class="input input-bordered w-full"
         v-model="username"
-        class="border rounded-md border-neutral-400 p-2"
       />
       <input
         type="password"
+        placeholder="Password"
+        class="input input-bordered w-full"
         v-model="password"
-        class="border rounded-md border-neutral-400 p-2"
       />
-      <button type="submit">Login</button>
+      <button type="submit" class="btn btn-primary">Login</button>
     </form>
   </div>
 </template>

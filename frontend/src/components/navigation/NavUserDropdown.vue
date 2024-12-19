@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
-import { LogOut } from 'lucide-vue-next';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const userStore = useUserStore();
 const firstLetter = userStore.user?.username.charAt(0).toUpperCase();
 
-const isOpen = ref(false);
-
-const toggleOpen = () => (isOpen.value = !isOpen.value);
 const handleLogout = async () => {
   userStore.logout();
   router.push('/login');
@@ -19,23 +14,18 @@ const handleLogout = async () => {
 
 <template>
   <div class="relative">
-    <button
-      class="hover:bg-secondary-100 transition-all w-12 h-12 rounded-full"
-      @click="toggleOpen"
-    >
-      {{ firstLetter }}
-    </button>
-    <div
-      v-if="isOpen"
-      class="absolute right-0 min-w-48 mt-4 p-2 bg-neutral-400 border"
-    >
-      <button
-        class="hover:bg-neutral-200 flex gap-2 items-center w-full p-2 transition-all"
-        @click="handleLogout"
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
+        {{ firstLetter }}
+      </div>
+      <ul
+        tabindex="0"
+        class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow"
       >
-        <LogOut />
-        Logout
-      </button>
+        <li>
+          <button @click="handleLogout" class="text-error">Logout</button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

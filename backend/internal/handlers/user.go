@@ -5,6 +5,7 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -87,6 +88,8 @@ func (h *UserHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
+	fmt.Println(userDto)
 
 	user, err := h.queries.GetUserByUsername(context.Background(), userDto.Username)
 	if err != nil {

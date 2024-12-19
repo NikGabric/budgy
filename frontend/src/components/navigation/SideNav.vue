@@ -24,12 +24,12 @@ const items: SidebarItem[] = [
 </script>
 
 <template>
-  <div class="h-full bg-primary-200 border-r">
+  <div class="h-full border-r border-primary">
     <RouterLink
       v-for="item in items"
       :key="item.title"
       :to="item.to"
-      class="flex gap-2 px-4 py-3 m-1 h-fit rounded-lg hover:bg-neutral-400 bg-opacity-50 transition-all"
+      class="flex justify-start btn btn-ghost m-2"
     >
       <!-- TODO: fix icon behavior when expanding -->
       <component :is="item.icon" />

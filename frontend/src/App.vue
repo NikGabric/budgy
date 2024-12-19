@@ -7,10 +7,12 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <div>
-    <UnauthorizedLayout v-if="!userStore.isAuthenticated" />
-    <AuthorizedLayout v-else />
-  </div>
+  <html data-theme="budgyDark">
+    <div>
+      <UnauthorizedLayout v-if="!userStore.isAuthenticated" />
+      <AuthorizedLayout v-else />
+    </div>
+  </html>
 </template>
 
 <style scoped></style>
