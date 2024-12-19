@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { type Transaction, useGetTransactions } from '@/composables/useApi';
+import type { Transaction } from '@/composables/useApi';
 import { formatDate } from '@/utils/formatters';
-import { type Ref, ref } from 'vue';
 
-const transactions: Ref<Transaction[]> = ref(await useGetTransactions());
+defineProps({
+  transactions: {
+    type: Array<Transaction>,
+    required: true,
+  },
+});
 </script>
 
 <template>

@@ -1,7 +1,17 @@
 <script setup lang="ts">
-// const transactions: Ref<Transaction[]> = ref(await useGetTransactions());
+import { type Transaction } from '../../../composables/useApi';
+
+defineProps({
+  transactions: {
+    type: Array<Transaction>,
+    required: true,
+  },
+});
 </script>
 
 <template>
-  <div></div>
+  <div>
+    <!-- TODO: summary -->
+    Summary!
+  </div>
 </template>

@@ -108,7 +108,7 @@ export const anonDelete = async <T = unknown>(
 export const authGet = async <T = unknown>(
   token: string,
   url: string,
-  params?: Record<string, string | number>,
+  params?: Record<string, string | number | undefined>,
 ): Promise<ApiResponse<T>> => {
   if (!token) {
     throw new Error('Token missing from request!');

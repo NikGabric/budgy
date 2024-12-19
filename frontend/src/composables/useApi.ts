@@ -14,8 +14,8 @@ export interface Transaction {
   transactionTypeName: string;
 }
 
-export const useGetTransactions = async (
-  params?: Record<string, string | number>,
+export const useGetUserTransactions = async (
+  params?: Record<string, string | number | undefined>,
 ): Promise<Transaction[]> => {
   const userStore = useUserStore();
   const { token } = storeToRefs(userStore);
@@ -24,6 +24,33 @@ export const useGetTransactions = async (
     token.value ?? '',
     '/user/transactions',
     params ?? { limit: 5 },
+  );
+
+  if (!resp.isSuccess) {
+    throw new Error(resp.errorMsg);
+  }
+
+  return resp.data;
+};
+
+export interface TransactionType {
+  id: number;
+  userId: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const useGetUserTransactionTypes = async (): Promise<
+  TransactionType[]
+> => {
+  const userStore = useUserStore();
+  const { token } = storeToRefs(userStore);
+
+  const resp = await authGet<TransactionType[]>(
+    token.value ?? '',
+    '/user/transaction-types',
   );
 
   if (!resp.isSuccess) {
