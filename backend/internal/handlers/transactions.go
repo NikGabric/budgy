@@ -4,7 +4,6 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -56,8 +55,6 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 		}
 		params.Limit = pgtype.Int4{Int32: int32(limit), Valid: true}
 	}
-
-	fmt.Printf("%+v\n", params)
 
 	if ttIdParam := r.URL.Query().Get("transaction_type_id"); ttIdParam != "" {
 		ttId, err := strconv.ParseInt(ttIdParam, 10, 32)
