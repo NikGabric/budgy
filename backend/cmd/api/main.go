@@ -8,20 +8,20 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
 	ctx := context.Background()
 	cfg := config.GetConfig()
 
-	conn, err := pgx.Connect(ctx, cfg.DbConnString)
+	dbpool, err := pgxpool.New(ctx, cfg.DbConnString)
 	if err != nil {
-		panic("! Unable to connect to DB !")
+		panic("! Unable to create connection pool !")
 	}
-	defer conn.Close(ctx)
+	defer dbpool.Close()
 
-	queries := repository.New(conn)
+	queries := repository.New(dbpool)
 	router := config.CreateRouter(queries)
 	mwStack := middleware.CreateStack(
 		middleware.AllowCors,

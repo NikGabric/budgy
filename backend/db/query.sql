@@ -88,19 +88,12 @@ SELECT
 FROM transactions t
 JOIN transaction_types tt ON t.transaction_type_id = tt.id
 WHERE t.user_id = $1
+AND t.transaction_type_id = COALESCE(sqlc.narg('transaction_type_id'), t.transaction_type_id)
 ORDER BY t.transaction_date DESC
-LIMIT $2 OFFSET $3;
+LIMIT COALESCE(sqlc.narg('limit')::int, 10) OFFSET $2;
 
 -- Update a transaction
 -- name: UpdateTransaction :one
--- UPDATE transactions
--- SET 
---     transaction_type_id = $2, 
---     amount = $3, 
---     description = $4, 
---     transaction_date = $5
--- WHERE id = $1 AND user_id = $6
--- RETURNING *;
 UPDATE transactions
 SET
     transaction_type_id = COALESCE(sqlc.narg('transaction_type_id'), transaction_type_id),

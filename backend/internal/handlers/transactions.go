@@ -4,8 +4,11 @@ import (
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type TransactionsHandler struct {
@@ -41,13 +44,29 @@ func (h *TransactionsHandler) GetTransactionById(w http.ResponseWriter, r *http.
 
 func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *http.Request) {
 	userId := r.Context().Value("userId").(int32)
-	limit, err := strconv.ParseInt(r.URL.Query().Get("limit"), 10, 32)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
+	params := repository.GetUserTransactionsParams{
+		UserID: userId,
 	}
 
-	params := repository.GetUserTransactionsParams{UserID: userId, Limit: int32(limit)}
+	if limitParam := r.URL.Query().Get("limit"); limitParam != "" {
+		limit, err := strconv.ParseInt(limitParam, 10, 32)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		params.Limit = pgtype.Int4{Int32: int32(limit), Valid: true}
+	}
+
+	fmt.Printf("%+v\n", params)
+
+	if ttIdParam := r.URL.Query().Get("transaction_type_id"); ttIdParam != "" {
+		ttId, err := strconv.ParseInt(ttIdParam, 10, 32)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		params.TransactionTypeID = pgtype.Int4{Int32: int32(ttId), Valid: true}
+	}
 
 	transactions, err := h.q.GetUserTransactions(context.Background(), params)
 	if err != nil {

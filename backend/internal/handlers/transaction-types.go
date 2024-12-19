@@ -62,3 +62,22 @@ func (h *TransactionTypesHandler) CreateTransactionType(w http.ResponseWriter, r
 	w.WriteHeader(http.StatusCreated)
 	w.Write(ttJson)
 }
+
+func (h *TransactionTypesHandler) GetTransactionTypesForUser(w http.ResponseWriter, r *http.Request) {
+	userId := r.Context().Value("userId").(int32)
+
+	tts, err := h.q.GetUserTransactionTypes(context.Background(), userId)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	ttsJson, err := json.Marshal(tts)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(ttsJson)
+}
