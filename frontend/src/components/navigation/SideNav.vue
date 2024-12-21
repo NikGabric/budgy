@@ -24,7 +24,7 @@ const items: SidebarItem[] = [
 </script>
 
 <template>
-  <div class="h-full border-r border-primary">
+  <div class="h-full bg-base-200">
     <RouterLink
       v-for="item in items"
       :key="item.title"

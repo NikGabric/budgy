@@ -7,7 +7,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-  <html data-theme="budgyDark">
+  <html data-theme="halloween">
     <div>
       <UnauthorizedLayout v-if="!userStore.isAuthenticated" />
       <AuthorizedLayout v-else />

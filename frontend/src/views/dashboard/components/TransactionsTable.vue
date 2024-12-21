@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <table class="table-auto w-full border border-neutral-400">
+  <table class="table w-full">
     <thead>
       <tr class="">
         <th>Date</th>
@@ -22,11 +22,7 @@ defineProps({
     </thead>
 
     <tbody>
-      <tr
-        v-for="t in transactions"
-        :key="t.id"
-        class="hover:bg-neutral-200 hover:cursor-pointer transition-all border-t border-neutral-200"
-      >
+      <tr v-for="t in transactions" :key="t.id">
         <td class="p-2 text-center">
           {{ formatDate(t.createdAt) }}
         </td>

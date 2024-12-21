@@ -18,9 +18,7 @@ const { isAuthenticated } = userStore;
 </script>
 
 <template>
-  <nav
-    class="flex items-center justify-between h-16 px-4 w-full border-b bg-primary-200 border-b-primary"
-  >
+  <nav class="flex items-center justify-between h-16 px-4 w-full bg-base-200">
     <div class="flex items-center gap-2" v-if="isAuthenticated">
       <button
         class="rounded-full p-2 transition-all hover:bg-neutral-400"
