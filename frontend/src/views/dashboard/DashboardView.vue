@@ -17,7 +17,7 @@ const handleUpdateTransactionTypeFilter = async (id?: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col gap-4">
     <ViewHeader title="Dashboard" :icon="Gauge" />
 
     <TransactionsFilters

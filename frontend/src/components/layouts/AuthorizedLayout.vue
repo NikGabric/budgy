@@ -33,7 +33,9 @@ const toggleSidebarOpen = () => (sidebarOpen.value = !sidebarOpen.value);
             <RouterView />
 
             <!-- TODO: spinner -->
-            <template #fallback>Loading...</template>
+            <template #fallback>
+              <div class="w-full h-32 skeleton"></div>
+            </template>
           </Suspense>
         </div>
       </div>
