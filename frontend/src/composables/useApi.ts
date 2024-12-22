@@ -17,9 +17,9 @@ export interface Transaction {
 }
 
 export interface GetUserTransactionsParams {
-  transaction_type_id?: number;
-  from_date?: string;
-  to_date?: string;
+  transactionTypeId?: number;
+  fromDate?: string;
+  toDate?: string;
 }
 
 export interface PaginationParams {

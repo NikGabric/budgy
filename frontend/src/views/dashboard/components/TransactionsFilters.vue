@@ -23,32 +23,32 @@ const handleTransactionTypeChange = (e: Event) => {
   const el = e.target as HTMLSelectElement;
   const selected = el.options[el.selectedIndex];
   if (selected.value === 'All') {
-    params.value.transaction_type_id = undefined;
+    params.value.transactionTypeId = undefined;
     return;
   }
 
-  params.value.transaction_type_id = transactionTypes.find(
+  params.value.transactionTypeId = transactionTypes.find(
     (el) => el.id.toString() === selected.value,
   )?.id;
 };
 
 const d = new Date();
 d.setDate(d.getDate() - 7);
-params.value.from_date = d.toISOString().slice(0, 10);
-params.value.to_date = new Date().toISOString().slice(0, 10);
+params.value.fromDate = d.toISOString().slice(0, 10);
+params.value.toDate = new Date().toISOString().slice(0, 10);
 
 const clearFilters = () => {
   transactionType.value = null;
-  params.value.from_date = undefined;
-  params.value.to_date = new Date().toISOString().slice(0, 10);
+  params.value.fromDate = undefined;
+  params.value.toDate = new Date().toISOString().slice(0, 10);
 };
 
 const handleThisMonth = () => {
   const d = new Date();
-  params.value.from_date = new Date(d.getFullYear(), d.getMonth(), 1, 1)
+  params.value.fromDate = new Date(d.getFullYear(), d.getMonth(), 1, 1)
     .toISOString()
     .slice(0, 10);
-  params.value.to_date = new Date(d.getFullYear(), d.getMonth() + 1, 1)
+  params.value.toDate = new Date(d.getFullYear(), d.getMonth() + 1, 1)
     .toISOString()
     .slice(0, 10);
 };
@@ -64,12 +64,12 @@ onMounted(() => emitChange());
         class="select select-primary select-sm w-32"
         @change="handleTransactionTypeChange"
       >
-        <option value="all" :selected="!params.transaction_type_id">All</option>
+        <option value="all" :selected="!params.transactionTypeId">All</option>
         <option
           v-for="item in transactionTypes"
           :key="item.id"
           :value="item.id"
-          :selected="params.transaction_type_id === item.id"
+          :selected="params.transactionTypeId === item.id"
         >
           {{ item.name }}
         </option>
@@ -78,13 +78,13 @@ onMounted(() => emitChange());
 
     <input
       type="date"
-      v-model.lazy="params.from_date"
+      v-model.lazy="params.fromDate"
       @change="emitChange"
       class="h-8 w-40 px-2 rounded-lg bg-base-100 border border-primary"
     />
     <input
       type="date"
-      v-model="params.to_date"
+      v-model="params.toDate"
       @change="emitChange"
       class="h-8 w-40 px-2 rounded-lg bg-base-100 border border-primary"
     />
