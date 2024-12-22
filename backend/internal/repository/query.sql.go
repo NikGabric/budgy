@@ -209,6 +209,48 @@ func (q *Queries) GetTransactionTypeByID(ctx context.Context, id int32) (Transac
 	return i, err
 }
 
+const getTransactionsCount = `-- name: GetTransactionsCount :many
+SELECT COUNT(*)
+FROM transactions t
+WHERE t.user_id = $1
+AND t.transaction_type_id = COALESCE($2, t.transaction_type_id)
+AND t.transaction_date <= COALESCE($3, t.transaction_date)
+AND t.transaction_date >= COALESCE($4, t.transaction_date)
+`
+
+type GetTransactionsCountParams struct {
+	UserID            int32              `json:"user_id"`
+	TransactionTypeID pgtype.Int4        `json:"transaction_type_id"`
+	ToDate            pgtype.Timestamptz `json:"to_date"`
+	FromDate          pgtype.Timestamptz `json:"from_date"`
+}
+
+// Get transactions count
+func (q *Queries) GetTransactionsCount(ctx context.Context, arg GetTransactionsCountParams) ([]int64, error) {
+	rows, err := q.db.Query(ctx, getTransactionsCount,
+		arg.UserID,
+		arg.TransactionTypeID,
+		arg.ToDate,
+		arg.FromDate,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []int64
+	for rows.Next() {
+		var count int64
+		if err := rows.Scan(&count); err != nil {
+			return nil, err
+		}
+		items = append(items, count)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUser = `-- name: GetUser :one
 SELECT id, username, email, password, created_at, updated_at FROM users
 WHERE id = $1 LIMIT 1

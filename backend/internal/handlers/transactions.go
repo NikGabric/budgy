@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"backend/internal/helpers"
 	"backend/internal/repository"
 	"context"
 	"encoding/json"
@@ -47,6 +48,9 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 	params := repository.GetUserTransactionsParams{
 		UserID: userId,
 	}
+	totalCountParams := repository.GetTransactionsCountParams{
+		UserID: userId,
+	}
 
 	if limitParam := r.URL.Query().Get("limit"); limitParam != "" {
 		limit, err := strconv.ParseInt(limitParam, 10, 32)
@@ -64,6 +68,7 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 			return
 		}
 		params.TransactionTypeID = pgtype.Int4{Int32: int32(ttId), Valid: true}
+		totalCountParams.TransactionTypeID = pgtype.Int4{Int32: int32(ttId), Valid: true}
 	}
 
 	if ttFromDate := r.URL.Query().Get("from_date"); ttFromDate != "" {
@@ -73,6 +78,7 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 			return
 		}
 		params.FromDate = pgtype.Timestamptz{Time: fromDate, Valid: true}
+		totalCountParams.FromDate = pgtype.Timestamptz{Time: fromDate, Valid: true}
 	}
 
 	if ttToDate := r.URL.Query().Get("to_date"); ttToDate != "" {
@@ -82,6 +88,7 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 			return
 		}
 		params.ToDate = pgtype.Timestamptz{Time: toDate, Valid: true}
+		totalCountParams.ToDate = pgtype.Timestamptz{Time: toDate, Valid: true}
 	}
 
 	transactions, err := h.q.GetUserTransactions(context.Background(), params)
@@ -94,14 +101,22 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 		transactions = make([]repository.GetUserTransactionsRow, 0)
 	}
 
-	transactionsJson, err := json.Marshal(transactions)
+	totalCount, err := h.q.GetTransactionsCount(context.Background(), totalCountParams)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	resp := helpers.CreatePaginationResponse(transactions, int(totalCount[0]))
+
+	respJson, err := json.Marshal(resp)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(transactionsJson)
+	w.Write(respJson)
 }
 
 func (h *TransactionsHandler) CreateTransaction(w http.ResponseWriter, r *http.Request) {
