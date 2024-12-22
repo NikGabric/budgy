@@ -1,62 +1,75 @@
 <script setup lang="ts">
 import {
   useGetUserTransactionTypes,
+  type GetUserTransactionsParams,
   type TransactionType,
 } from '@/composables/useApi';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, watch, type Ref } from 'vue';
 
 const emit = defineEmits<{
-  (e: 'handleTransactionTypeChange', id?: number): void;
-  (e: 'handleFromDateChange', date?: Date): void;
-  (e: 'handleToDateChange', date?: Date): void;
+  (e: 'handleFiltersChange', params?: GetUserTransactionsParams): void;
 }>();
+
+const params: Ref<GetUserTransactionsParams> = ref({});
+const emitChange = () => emit('handleFiltersChange', params.value);
+watch(params.value, () => {
+  emitChange();
+});
 
 const transactionTypes = await useGetUserTransactionTypes();
 const transactionType: Ref<TransactionType | null> = ref(null);
 
-const handleChangeTransactionType = (e: Event) => {
+const handleTransactionTypeChange = (e: Event) => {
   const el = e.target as HTMLSelectElement;
-  const selectedOption = el.options[el.selectedIndex];
-
-  if (selectedOption.value === 'All') {
-    emit('handleTransactionTypeChange');
+  const selected = el.options[el.selectedIndex];
+  if (selected.value === 'All') {
+    params.value.transaction_type_id = undefined;
     return;
   }
 
-  transactionType.value =
-    transactionTypes.find((el) => el.id.toString() === selectedOption.value) ??
-    null;
-  emit('handleTransactionTypeChange', transactionType.value?.id);
+  params.value.transaction_type_id = transactionTypes.find(
+    (el) => el.id.toString() === selected.value,
+  )?.id;
 };
 
-//TODO: handle change
 const d = new Date();
 d.setDate(d.getDate() - 7);
-const fromDate: Ref<string | null> = ref(d.toISOString().slice(0, 10));
-const toDate: Ref<string | null> = ref(new Date().toISOString().slice(0, 10));
+params.value.from_date = d.toISOString().slice(0, 10);
+params.value.to_date = new Date().toISOString().slice(0, 10);
 
 const clearFilters = () => {
   transactionType.value = null;
-  fromDate.value = null;
-  toDate.value = null;
-  // TODO: handle change
+  params.value.from_date = undefined;
+  params.value.to_date = new Date().toISOString().slice(0, 10);
 };
+
+const handleThisMonth = () => {
+  const d = new Date();
+  params.value.from_date = new Date(d.getFullYear(), d.getMonth(), 1, 1)
+    .toISOString()
+    .slice(0, 10);
+  params.value.to_date = new Date(d.getFullYear(), d.getMonth() + 1, 1)
+    .toISOString()
+    .slice(0, 10);
+};
+
+onMounted(() => emitChange());
 </script>
 
 <template>
-  <div class="flex gap-2 items-end">
+  <div class="flex justify-between gap-2 items-end">
     <label>
       <div class="label"><span class="label-text">Transaction type</span></div>
       <select
         class="select select-primary select-sm w-32"
-        @change="handleChangeTransactionType"
+        @change="handleTransactionTypeChange"
       >
-        <option value="all" :selected="transactionType === null">All</option>
+        <option value="all" :selected="!params.transaction_type_id">All</option>
         <option
           v-for="item in transactionTypes"
           :key="item.id"
           :value="item.id"
-          :selected="transactionType?.id === item.id"
+          :selected="params.transaction_type_id === item.id"
         >
           {{ item.name }}
         </option>
@@ -65,20 +78,41 @@ const clearFilters = () => {
 
     <input
       type="date"
-      v-model.lazy="fromDate"
-      class="h-8 px-2 rounded-lg bg-base-100 border border-primary"
+      v-model.lazy="params.from_date"
+      @change="emitChange"
+      class="h-8 w-40 px-2 rounded-lg bg-base-100 border border-primary"
     />
     <input
       type="date"
-      v-model="toDate"
-      class="h-8 px-2 rounded-lg bg-base-100 border border-primary"
+      v-model="params.to_date"
+      @change="emitChange"
+      class="h-8 w-40 px-2 rounded-lg bg-base-100 border border-primary"
     />
 
-    <button
-      class="btn btn-secondary btn-sm justify-self-end"
-      @click="clearFilters"
-    >
-      Clear filters
-    </button>
+    <div class="flex gap-2">
+      <div class="dropdown dropdown-end">
+        <div
+          tabindex="0"
+          role="button"
+          class="btn btn-outline btn-primary btn-sm"
+        >
+          Quick filters
+        </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow my-2"
+        >
+          <li><button @click="handleThisMonth">This month</button></li>
+          <li><a>Item 2</a></li>
+        </ul>
+      </div>
+
+      <button
+        class="btn btn-secondary btn-sm justify-self-end"
+        @click="clearFilters"
+      >
+        Clear filters
+      </button>
+    </div>
   </div>
 </template>

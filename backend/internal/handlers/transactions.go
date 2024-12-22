@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
 )
@@ -65,10 +66,32 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 		params.TransactionTypeID = pgtype.Int4{Int32: int32(ttId), Valid: true}
 	}
 
+	if ttFromDate := r.URL.Query().Get("from_date"); ttFromDate != "" {
+		fromDate, err := time.Parse("2006-01-02", ttFromDate)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		params.FromDate = pgtype.Timestamptz{Time: fromDate, Valid: true}
+	}
+
+	if ttToDate := r.URL.Query().Get("to_date"); ttToDate != "" {
+		toDate, err := time.Parse("2006-01-02", ttToDate)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		params.ToDate = pgtype.Timestamptz{Time: toDate, Valid: true}
+	}
+
 	transactions, err := h.q.GetUserTransactions(context.Background(), params)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		return
+	}
+
+	if transactions == nil {
+		transactions = make([]repository.GetUserTransactionsRow, 0)
 	}
 
 	transactionsJson, err := json.Marshal(transactions)

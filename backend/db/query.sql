@@ -89,6 +89,8 @@ FROM transactions t
 JOIN transaction_types tt ON t.transaction_type_id = tt.id
 WHERE t.user_id = $1
 AND t.transaction_type_id = COALESCE(sqlc.narg('transaction_type_id'), t.transaction_type_id)
+AND t.transaction_date <= COALESCE(sqlc.narg('to_date'), t.transaction_date)
+AND t.transaction_date >= COALESCE(sqlc.narg('from_date'), t.transaction_date)
 ORDER BY t.transaction_date DESC
 LIMIT COALESCE(sqlc.narg('limit')::int, 10) OFFSET $2;
 

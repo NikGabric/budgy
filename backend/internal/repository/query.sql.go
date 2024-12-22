@@ -294,15 +294,19 @@ FROM transactions t
 JOIN transaction_types tt ON t.transaction_type_id = tt.id
 WHERE t.user_id = $1
 AND t.transaction_type_id = COALESCE($3, t.transaction_type_id)
+AND t.transaction_date <= COALESCE($4, t.transaction_date)
+AND t.transaction_date >= COALESCE($5, t.transaction_date)
 ORDER BY t.transaction_date DESC
-LIMIT COALESCE($4::int, 10) OFFSET $2
+LIMIT COALESCE($6::int, 10) OFFSET $2
 `
 
 type GetUserTransactionsParams struct {
-	UserID            int32       `json:"user_id"`
-	Offset            int32       `json:"offset"`
-	TransactionTypeID pgtype.Int4 `json:"transaction_type_id"`
-	Limit             pgtype.Int4 `json:"limit"`
+	UserID            int32              `json:"user_id"`
+	Offset            int32              `json:"offset"`
+	TransactionTypeID pgtype.Int4        `json:"transaction_type_id"`
+	ToDate            pgtype.Timestamptz `json:"to_date"`
+	FromDate          pgtype.Timestamptz `json:"from_date"`
+	Limit             pgtype.Int4        `json:"limit"`
 }
 
 type GetUserTransactionsRow struct {
@@ -323,6 +327,8 @@ func (q *Queries) GetUserTransactions(ctx context.Context, arg GetUserTransactio
 		arg.UserID,
 		arg.Offset,
 		arg.TransactionTypeID,
+		arg.ToDate,
+		arg.FromDate,
 		arg.Limit,
 	)
 	if err != nil {

@@ -1,4 +1,5 @@
 import { authGet } from '@/api/helpers';
+import { DEFAULT_PAGINATION_LIMIT } from '@/app-constants';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 
@@ -14,8 +15,18 @@ export interface Transaction {
   transactionTypeName: string;
 }
 
+export interface GetUserTransactionsParams {
+  transaction_type_id?: number;
+  from_date?: string;
+  to_date?: string;
+}
+
+export interface PaginationParams {
+  limit?: number;
+}
+
 export const useGetUserTransactions = async (
-  params?: Record<string, string | number | undefined>,
+  params?: GetUserTransactionsParams & PaginationParams,
 ): Promise<Transaction[]> => {
   const userStore = useUserStore();
   const { token } = storeToRefs(userStore);
@@ -23,7 +34,7 @@ export const useGetUserTransactions = async (
   const resp = await authGet<Transaction[]>(
     token.value ?? '',
     '/user/transactions',
-    params ?? { limit: 5 },
+    { ...params, limit: params?.limit ?? DEFAULT_PAGINATION_LIMIT },
   );
 
   if (!resp.isSuccess) {
