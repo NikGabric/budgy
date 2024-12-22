@@ -61,6 +61,15 @@ func (h *TransactionsHandler) GetTransactionsForUser(w http.ResponseWriter, r *h
 		params.Limit = pgtype.Int4{Int32: int32(limit), Valid: true}
 	}
 
+	if pageParam := r.URL.Query().Get("page"); pageParam != "" {
+		page, err := strconv.ParseInt(pageParam, 10, 32)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		params.Offset = int32((page - 1) * int64(params.Limit.Int32))
+	}
+
 	if ttIdParam := r.URL.Query().Get("transaction_type_id"); ttIdParam != "" {
 		ttId, err := strconv.ParseInt(ttIdParam, 10, 32)
 		if err != nil {

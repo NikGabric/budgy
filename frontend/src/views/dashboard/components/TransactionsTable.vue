@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import type { Transaction } from '@/composables/useApi';
+import type { PaginationParams, Transaction } from '@/composables/useApi';
 import { formatDate } from '@/utils/formatters';
+import { type PaginationResponse } from '../../../api/types';
+import { type PropType } from 'vue';
+import PaginationFilters from '@/components/PaginationFilters.vue';
 
 defineProps({
   transactions: {
-    type: Array<Transaction>,
+    type: Object as PropType<PaginationResponse<Transaction[]>>,
     required: true,
   },
 });
+
+const emit = defineEmits<{
+  (e: 'paginationChange', params?: PaginationParams): void;
+}>();
+const emitChange = (params: PaginationParams) =>
+  emit('paginationChange', params);
 </script>
 
 <template>
@@ -24,7 +33,7 @@ defineProps({
 
       <tbody>
         <tr
-          v-for="t in transactions"
+          v-for="t in transactions?.data"
           :key="t.id"
           class="hover:bg-base-200 hover:cursor-pointer"
         >
@@ -37,5 +46,10 @@ defineProps({
         </tr>
       </tbody>
     </table>
+
+    <PaginationFilters
+      :total-count="transactions.totalCount"
+      @pagination-change="emitChange"
+    />
   </div>
 </template>

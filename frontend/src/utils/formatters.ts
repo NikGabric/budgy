@@ -2,12 +2,12 @@ export const formatDate = (date: string) => {
   const d = new Date(date);
 
   return (
-    padWithChar(d.getDay().toString(), 2, '0') +
+    padWithChar(d.getDate().toString(), 2, '0') +
     '.' +
-    padWithChar(d.getDay().toString(), 2, '0') +
+    padWithChar((d.getMonth() + 1).toString(), 2, '0') +
     '.' +
     d.getFullYear() +
-    ' ' +
+    ' - ' +
     padWithChar(d.getHours().toString(), 2, '0') +
     ':' +
     padWithChar(d.getMinutes().toString(), 2, '0')

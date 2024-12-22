@@ -4,7 +4,7 @@ import { type Transaction } from '../../../composables/useApi';
 defineProps({
   transactions: {
     type: Array<Transaction>,
-    required: true,
+    required: false,
   },
 });
 </script>

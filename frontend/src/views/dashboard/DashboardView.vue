@@ -5,18 +5,27 @@ import TransactionsTable from '@/views/dashboard/components/TransactionsTable.vu
 import TransactionsSummary from './components/TransactionsSummary.vue';
 import {
   type GetUserTransactionsParams,
+  type PaginationParams,
   type Transaction,
   useGetUserTransactions,
 } from '@/composables/useApi';
 import { type Ref, ref } from 'vue';
 import TransactionsFilters from './components/TransactionsFilters.vue';
+import { type PaginationResponse } from '../../api/types';
 
-const transactions: Ref<Transaction[]> = ref([]);
+const transactionParams: Ref<GetUserTransactionsParams & PaginationParams> =
+  ref({});
+const transactions: Ref<PaginationResponse<Transaction[]>> = ref({
+  data: [],
+  totalCount: 0,
+});
 
-const handleUpdateTransactionTypeFilter = async (
-  params?: GetUserTransactionsParams,
+// TODO: fix 2 api calls on mount
+const handleUpdateTransactions = async (
+  params?: GetUserTransactionsParams & PaginationParams,
 ) => {
-  transactions.value = await useGetUserTransactions(params);
+  transactionParams.value = { ...transactionParams.value, ...params };
+  transactions.value = await useGetUserTransactions(transactionParams.value);
 };
 </script>
 
@@ -24,12 +33,13 @@ const handleUpdateTransactionTypeFilter = async (
   <div class="flex flex-col gap-4">
     <ViewHeader title="Dashboard" :icon="Gauge" />
 
-    <TransactionsFilters
-      @handle-filters-change="handleUpdateTransactionTypeFilter"
+    <TransactionsFilters @handle-filters-change="handleUpdateTransactions" />
+
+    <TransactionsSummary :transactions="transactions?.data" />
+
+    <TransactionsTable
+      :transactions="transactions"
+      @pagination-change="handleUpdateTransactions"
     />
-
-    <TransactionsSummary :transactions="transactions" />
-
-    <TransactionsTable :transactions="transactions" />
   </div>
 </template>
