@@ -14,11 +14,7 @@ const toggleSidebarOpen = () => (sidebarOpen.value = !sidebarOpen.value);
 
 <template>
   <div class="flex w-screen h-screen">
-    <SideNav
-      class="transition-all"
-      :class="sidebarOpen ? 'w-72' : 'w-16'"
-      :sidebar-open="sidebarOpen"
-    />
+    <SideNav :sidebar-open="sidebarOpen" />
     <div class="flex-1">
       <header>
         <TopNav

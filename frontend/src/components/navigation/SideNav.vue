@@ -60,32 +60,57 @@ const endItems: SidebarItem[] = [
 </script>
 
 <template>
-  <div class="flex flex-col h-screen bg-base-200">
-    <div class="h-16 text-center text-3xl">Budgy</div>
-    <div class="flex-1 min-h-0 flex flex-col justify-between">
-      <div class="flex flex-col">
-        <button
+  <div
+    class="flex flex-col items-center h-screen bg-base-200"
+    :class="sidebarOpen ? 'w-72' : 'w-16'"
+  >
+    <div class="h-16 bg-primary bg-opacity-15 w-full text-3xl text-center">
+      Budgy
+    </div>
+
+    <div class="flex flex-col w-full justify-between h-full">
+      <div class="flex flex-col w-full p-1">
+        <div
           v-for="item in items"
           :key="item.title"
-          class="btn btn-ghost m-2"
-          @click="item.action"
+          :class="{ 'tooltip tooltip-right tooltip-accent': !sidebarOpen }"
+          :data-tip="item.title"
         >
-          <component :is="item.icon" />
-          <span v-if="sidebarOpen">{{ item.title }}</span>
-        </button>
+          <button
+            class="btn btn-ghost flex w-full"
+            :class="sidebarOpen ? 'justify-start' : 'justify-center btn-square'"
+            @click="item.action"
+          >
+            <component :is="item.icon" />
+            <div v-if="sidebarOpen">
+              {{ item.title }}
+            </div>
+          </button>
+        </div>
       </div>
 
-      <div class="flex flex-col">
-        <button
+      <div class="flex flex-col w-full p-1">
+        <div
           v-for="item in endItems"
           :key="item.title"
-          class="btn btn-ghost m-2"
-          :class="item.style"
-          @click="item.action"
+          :class="{ 'tooltip tooltip-right tooltip-accent': !sidebarOpen }"
+          :data-tip="item.title"
         >
-          <component :is="item.icon" />
-          <span v-if="sidebarOpen">{{ item.title }}</span>
-        </button>
+          <button
+            class="btn btn-ghost flex w-full"
+            :class="
+              sidebarOpen
+                ? `justify-start ${item.style}`
+                : `justify-center btn-square ${item.style}`
+            "
+            @click="item.action"
+          >
+            <component :is="item.icon" />
+            <div v-if="sidebarOpen">
+              {{ item.title }}
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   </div>
