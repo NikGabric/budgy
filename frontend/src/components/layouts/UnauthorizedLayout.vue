@@ -6,11 +6,7 @@ import { RouterView } from 'vue-router';
   <div class="flex w-screen h-screen">
     <div class="flex-1">
       <div class="flex w-screen justify-center p-4">
-        <Suspense>
-          <RouterView />
-
-          <template #fallback>Loading...</template>
-        </Suspense>
+        <RouterView />
       </div>
     </div>
   </div>
