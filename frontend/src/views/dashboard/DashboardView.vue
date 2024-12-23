@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import ViewHeader from '@/components/ViewHeader.vue';
 import { Gauge } from 'lucide-vue-next';
-import TransactionsTable from '@/views/dashboard/components/TransactionsTable.vue';
-import TransactionsSummary from './components/TransactionsSummary.vue';
+import TransactionsTable from '@/views/dashboard/_components/TransactionsTable.vue';
+import TransactionsSummary from './_components/TransactionsSummary.vue';
 import {
   type GetUserTransactionsParams,
   type PaginationParams,
@@ -10,7 +10,7 @@ import {
   useGetUserTransactions,
 } from '@/composables/useApi';
 import { type Ref, ref } from 'vue';
-import TransactionsFilters from './components/TransactionsFilters.vue';
+import TransactionsFilters from './_components/TransactionsFilters.vue';
 import { type PaginationResponse } from '../../api/types';
 
 const transactionParams: Ref<GetUserTransactionsParams & PaginationParams> =
