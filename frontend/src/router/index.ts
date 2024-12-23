@@ -4,6 +4,8 @@ import { useUserStore } from '@/stores/user';
 import LoginView from '@/views/auth/LoginView.vue';
 import SettingsView from '@/views/settings/SettingsView.vue';
 import BudgetView from '@/views/budget/BudgetView.vue';
+import TransactionsView from '@/views/transactions/TransactionsView.vue';
+import PageNotFound from '@/views/PageNotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +16,14 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      meta: {
+        auth: true,
+      },
+    },
+    {
+      path: '/transactions',
+      name: 'transactions',
+      component: TransactionsView,
       meta: {
         auth: true,
       },
@@ -33,6 +43,11 @@ const router = createRouter({
       meta: {
         auth: true,
       },
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: PageNotFound,
     },
   ],
 });

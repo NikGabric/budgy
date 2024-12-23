@@ -25,14 +25,7 @@ const toggleSidebarOpen = () => (sidebarOpen.value = !sidebarOpen.value);
 
       <div class="w-full p-8 flex justify-center">
         <div class="w-full max-w-[1560px]">
-          <Suspense>
-            <RouterView />
-
-            <!-- TODO: spinner -->
-            <template #fallback>
-              <div class="w-full h-32 skeleton"></div>
-            </template>
-          </Suspense>
+          <RouterView />
         </div>
       </div>
     </div>

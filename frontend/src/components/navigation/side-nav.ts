@@ -1,6 +1,7 @@
 import router from '@/router';
 import { useUserStore } from '@/stores/user';
 import {
+  BadgeEuro,
   ChartColumnBig,
   LayoutDashboard,
   LogOut,
@@ -19,6 +20,11 @@ export const startItems: SidebarItem[] = [
     title: 'Dashboard',
     icon: LayoutDashboard,
     action: () => router.push('/dashboard'),
+  },
+  {
+    title: 'Transactions',
+    icon: BadgeEuro,
+    action: () => router.push('/transactions'),
   },
   {
     title: 'Budget',
