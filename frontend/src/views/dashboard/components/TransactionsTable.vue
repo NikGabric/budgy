@@ -3,7 +3,7 @@ import type { PaginationParams, Transaction } from '@/composables/useApi';
 import { formatDate } from '@/utils/formatters';
 import { type PaginationResponse } from '../../../api/types';
 import { type PropType } from 'vue';
-import PaginationFilters from '@/components/PaginationFilters.vue';
+import PaginationFilters from '@/components/common/PaginationFilters.vue';
 
 defineProps({
   transactions: {
@@ -21,7 +21,7 @@ const emitChange = (params: PaginationParams) =>
 
 <template>
   <div class="w-full border rounded-lg p-2">
-    <table class="table">
+    <table class="table table-lg">
       <thead class="">
         <tr>
           <th>Date</th>

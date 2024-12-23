@@ -2,7 +2,6 @@
 import {
   useGetUserTransactionTypes,
   type GetUserTransactionsParams,
-  type TransactionType,
 } from '@/composables/useApi';
 import { onMounted, ref, watch, type Ref } from 'vue';
 
@@ -17,7 +16,6 @@ watch(params.value, () => {
 });
 
 const transactionTypes = await useGetUserTransactionTypes();
-const transactionType: Ref<TransactionType | null> = ref(null);
 
 const handleTransactionTypeChange = (e: Event) => {
   const el = e.target as HTMLSelectElement;
@@ -38,7 +36,7 @@ params.value.fromDate = d.toISOString().slice(0, 10);
 params.value.toDate = new Date().toISOString().slice(0, 10);
 
 const clearFilters = () => {
-  transactionType.value = null;
+  params.value.transactionTypeId = undefined;
   params.value.fromDate = undefined;
   params.value.toDate = new Date().toISOString().slice(0, 10);
 };
