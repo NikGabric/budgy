@@ -5,6 +5,6 @@ export default {
   content: ['./intext.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   plugins: [daisyui],
   daisyui: {
-    themes: ['halloween'],
+    themes: ['halloween', 'cupcake'],
   },
 };
