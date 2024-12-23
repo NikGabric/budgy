@@ -4,6 +4,7 @@ import { formatDate } from '@/utils/formatters';
 import { type PaginationResponse } from '../../../api/types';
 import { type PropType } from 'vue';
 import PaginationFilters from '@/components/common/PaginationFilters.vue';
+import { useRouter } from 'vue-router';
 
 defineProps({
   transactions: {
@@ -17,6 +18,9 @@ const emit = defineEmits<{
 }>();
 const emitChange = (params: PaginationParams) =>
   emit('paginationChange', params);
+
+const router = useRouter();
+const navigateTo = (id: number) => router.push(`/transaction/${id}`);
 </script>
 
 <template>
@@ -36,6 +40,7 @@ const emitChange = (params: PaginationParams) =>
           v-for="t in transactions?.data"
           :key="t.id"
           class="hover:bg-base-200 hover:cursor-pointer"
+          @click="() => navigateTo(t.id)"
         >
           <td class="p-2 text-center">
             {{ formatDate(t.createdAt) }}

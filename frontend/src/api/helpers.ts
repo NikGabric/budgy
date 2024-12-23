@@ -78,3 +78,24 @@ export const authGet = async <T = unknown>(
     errorMsg: isSuccess ? undefined : resp.statusText,
   };
 };
+
+export const authPost = async <T = unknown>(
+  token: string,
+  url: string,
+  body?: object,
+): Promise<ApiResponse<T>> => {
+  if (!token) {
+    throw new Error('Token missing from request!');
+  }
+
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+
+  const resp = await apiClient.post(url, body, config);
+  const isSuccess = resp.status >= 200 && resp.status <= 299;
+
+  return {
+    data: resp.data,
+    isSuccess,
+    errorMsg: isSuccess ? undefined : resp.statusText,
+  };
+};

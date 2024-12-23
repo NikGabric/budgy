@@ -6,6 +6,7 @@ import SettingsView from '@/views/settings/SettingsView.vue';
 import BudgetView from '@/views/budget/BudgetView.vue';
 import TransactionsView from '@/views/transactions/TransactionsView.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
+import TransactionDetailsView from '@/views/transactions/details/TransactionDetailsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,14 @@ const router = createRouter({
       path: '/transactions',
       name: 'transactions',
       component: TransactionsView,
+      meta: {
+        auth: true,
+      },
+    },
+    {
+      path: '/transaction/:id',
+      name: 'transaction-details',
+      component: TransactionDetailsView,
       meta: {
         auth: true,
       },
