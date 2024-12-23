@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ViewHeader from '@/components/ViewHeader.vue';
-import TransactionDetails from './_components/TransactionDetails.vue';
+import TransactionDetails from './TransactionDetails.vue';
 import { BadgeEuro } from 'lucide-vue-next';
 </script>
 
